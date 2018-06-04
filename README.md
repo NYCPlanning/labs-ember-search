@@ -1,7 +1,18 @@
 labs-ember-search
 ==============================================================================
 
-[Short description of the addon.]
+Invoke the component like this:
+```
+{{labs-search}}
+```
+
+Be sure to have the host info configured in your environment.js!
+```
+    'labs-search': {
+      host: (environment === 'devlocal') ? '//localhost:4000' : 'https://zola-search-api.planninglabs.nyc',
+      route: 'search',
+    },
+```
 
 Installation
 ------------------------------------------------------------------------------
