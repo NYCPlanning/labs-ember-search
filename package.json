@@ -45,7 +45,7 @@
     "@ember-decorators/argument": "0.8.15",
     "@ember-decorators/babel-transforms": "^2.0.0",
     "babel-plugin-htmlbars-inline-precompile": "0.2.4",
-    "cartobox-promises-utility": "nycplanning/cartobox-promises-utility",
+    "cartobox-promises-utility": "nycplanning/cartobox-promises-utility#v1.0.2",
     "ember-cli-babel": "^6.6.0",
     "ember-cli-htmlbars": "^2.0.1",
     "ember-cli-htmlbars-inline-precompile": "^1.0.0",
