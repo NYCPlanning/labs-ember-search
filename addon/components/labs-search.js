@@ -16,11 +16,15 @@ const DEBOUNCE_MS = 100;
 export default class LabsSearchComponent extends Component {
   constructor() {
     super();
-    const { host = 'https://zola-api.planninglabs.nyc', route = 'search' } =
-      getOwner(this).resolveRegistration('config:environment')['labs-search'];
+    const { 
+      host = 'https://zola-api.planninglabs.nyc', 
+      route = 'search',
+      helpers = ['geosearch', 'city-map-street-search', 'city-map-alteration'],
+    } = getOwner(this).resolveRegistration('config:environment')['labs-search'];
 
     this.set('host', host);
     this.set('route', route);
+    this.set('helpers', helpers);
   }
 
   @argument
@@ -57,7 +61,9 @@ export default class LabsSearchComponent extends Component {
     const searchTerms = this.get('searchTerms');
     const host = this.get('host');
     const route = this.get('route');
-    return `${host}/${route}?helpers[]=geosearch&helpers[]=city-map-street-search&helpers[]=city-map-alteration&q=${searchTerms}`;
+    const helpers = this.get('helpers').map(string => `helpers[]=${string}&`);
+
+    return `${host}/${route}?${helpers}q=${searchTerms}`;
   }
 
   @argument
