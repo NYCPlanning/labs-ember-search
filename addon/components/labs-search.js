@@ -15,7 +15,7 @@ const DEBOUNCE_MS = 100;
 @classNames('labs-geosearch')
 export default class LabsSearchComponent extends Component {
   constructor() {
-    super();
+    super(...arguments);
     const { 
       host = 'https://zola-api.planninglabs.nyc', 
       route = 'search',
