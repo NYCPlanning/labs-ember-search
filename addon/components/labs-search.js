@@ -16,8 +16,8 @@ const DEBOUNCE_MS = 100;
 export default class LabsSearchComponent extends Component {
   constructor() {
     super(...arguments);
-    const { 
-      host = 'https://zola-api.planninglabs.nyc', 
+    const {
+      host = 'https://zola-api.planninglabs.nyc',
       route = 'search',
       helpers = ['geosearch', 'city-map-street-search', 'city-map-alteration'],
     } = getOwner(this).resolveRegistration('config:environment')['labs-search'];
@@ -76,6 +76,9 @@ export default class LabsSearchComponent extends Component {
   typeTitleLookup = {
     lot: 'Lot',
   }
+
+  @argument
+  searchPlaceholder = 'Search...';
 
   @argument
   searchTerms = '';
