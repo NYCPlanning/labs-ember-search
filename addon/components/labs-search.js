@@ -17,7 +17,7 @@ export default class LabsSearchComponent extends Component {
   constructor() {
     super(...arguments);
     const {
-      host = 'https://zola-api.planninglabs.nyc',
+      host = 'https://search-api.planninglabs.nyc',
       route = 'search',
       helpers = ['geosearch', 'city-map-street-search', 'city-map-alteration'],
     } = getOwner(this).resolveRegistration('config:environment')['labs-search'];
@@ -67,7 +67,7 @@ export default class LabsSearchComponent extends Component {
   }
 
   @argument
-  host = 'https://zola-search-api.planninglabs.nyc';
+  host = 'https://search-api.planninglabs.nyc';
 
   @argument
   route = 'search';
