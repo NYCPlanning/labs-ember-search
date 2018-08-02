@@ -23,7 +23,7 @@ module.exports = function(environment) {
     },
 
     'labs-search': {
-      host: (environment === 'devlocal') ? '//localhost:4000' : 'https://zola-search-api.planninglabs.nyc',
+      host: (environment === 'devlocal') ? '//localhost:4000' : 'https://search-api.planninglabs.nyc',
       route: 'search',
       // helpers: ['geosearch'],
     },
