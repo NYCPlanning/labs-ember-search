@@ -28,13 +28,13 @@
       <div class="cell auto block-container">
         <label>
           Block
-          {{input class="bbl-lookup--block-input" type='number' value=block min='1' max='99999' key-up='validate'}}
+          {{input class="bbl-lookup--block-input" type='number' value=block min='1' max='99999' key-up=(action 'validate')}}
         </label>
       </div>
       <div class="cell auto lot-container">
         <label>
           Lot
-          {{input class="bbl-lookup--lot-input" type='number' value=lot min='1' max='9999' key-up='validate'}}
+          {{input class="bbl-lookup--lot-input" type='number' value=lot min='1' max='9999' key-up=(action 'validate')}}
         </label>
       </div>
     </div>
