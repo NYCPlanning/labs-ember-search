@@ -2,9 +2,8 @@
 'use strict';
 
 module.exports = {
-  name: 'labs-ember-search',
-
+  name: require('./package').name,
   isDevelopingAddon() {
     return true;
-  }
+  },
 };
