@@ -2,13 +2,13 @@ import Component from '@ember/component';
 import fetch from 'fetch';
 import { computed, action } from '@ember-decorators/object'; // eslint-disable-line
 import { classNames } from '@ember-decorators/component';
-import { task, timeout } from 'ember-concurrency';
+import { timeout } from 'ember-concurrency';
 import { argument } from '@ember-decorators/argument';
 import { Action } from '@ember-decorators/argument/types';
 import { type } from '@ember-decorators/argument/type';
 import { getOwner } from '@ember/application';
-import { defineProperty } from '@ember/object';
 import { Promise } from 'rsvp';
+import { keepLatestTask } from 'ember-concurrency-decorators';
 import layout from '../templates/components/labs-search';
 
 const DEBOUNCE_MS = 100;
@@ -26,30 +26,6 @@ export default class LabsSearchComponent extends Component {
     this.set('host', host);
     this.set('route', route);
     this.set('helpers', helpers);
-
-    defineProperty(this, 'debouncedResults', task(function* (searchTerms) {
-      if (searchTerms.length < 3) this.cancel();
-      yield timeout(DEBOUNCE_MS);
-      const URL = this.get('endpoint');
-
-      this.set('loading', new Promise(function(resolve) {
-        setTimeout(resolve, 500);
-      }));
-
-      const raw = yield fetch(URL);
-      const resultList = yield raw.json();
-      const mergedWithTitles = resultList.map((result, index) => {
-        const mutatedResult = result;
-        mutatedResult.id = index;
-        mutatedResult.typeTitle = this.get(`typeTitleLookup.${result.type}`) || 'Result';
-        return mutatedResult;
-      });
-
-      this.set('currResults', mergedWithTitles);
-      this.set('loading', null);
-
-      return mergedWithTitles;
-    }).keepLatest());
   }
 
   @argument
@@ -113,6 +89,31 @@ export default class LabsSearchComponent extends Component {
   _focused = false;
   currResults = [];
   loading = null;
+
+  @keepLatestTask
+  debouncedResults = function* (searchTerms) {
+    if (searchTerms.length < 3) this.cancel();
+    yield timeout(DEBOUNCE_MS);
+    const URL = this.get('endpoint');
+
+    this.set('loading', new Promise(function(resolve) {
+      setTimeout(resolve, 500);
+    }));
+
+    const raw = yield fetch(URL);
+    const resultList = yield raw.json();
+    const mergedWithTitles = resultList.map((result, index) => {
+      const mutatedResult = result;
+      mutatedResult.id = index;
+      mutatedResult.typeTitle = this.get(`typeTitleLookup.${result.type}`) || 'Result';
+      return mutatedResult;
+    });
+
+    this.set('currResults', mergedWithTitles);
+    this.set('loading', null);
+
+    return mergedWithTitles;
+  }
 
   keyPress(event) {
     const selected = this.get('selected');
