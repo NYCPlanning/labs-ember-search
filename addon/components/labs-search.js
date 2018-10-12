@@ -62,7 +62,7 @@ export default class LabsSearchComponent extends Component {
     const searchTerms = this.get('searchTerms');
     const host = this.get('host');
     const route = this.get('route');
-    const helpers = this.get('helpers').map(string => `helpers[]=${string}&`);
+    const helpers = this.get('helpers').map(string => `helpers[]=${string}&`).join('');
 
     return `${host}/${route}?${helpers}q=${searchTerms}`;
   }
