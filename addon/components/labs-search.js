@@ -21,7 +21,7 @@ export default class LabsSearchComponent extends Component {
       host = 'https://search-api.planninglabs.nyc',
       route = 'search',
       helpers = ['geosearch', 'city-map-street-search', 'city-map-alteration'],
-    } = getOwner(this).resolveRegistration('config:environment')['labs-search'];
+    } = getOwner(this).resolveRegistration('config:environment')['labs-search'] || {};
 
     this.set('host', host);
     this.set('route', route);
