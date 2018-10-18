@@ -1,7 +1,7 @@
 {
   "name": "labs-ember-search",
   "license": "MIT",
-  "version": "2.4.8",
+  "version": "2.4.9",
   "repository": "",
   "scripts": {
     "build": "ember build",
@@ -48,7 +48,7 @@
     "@ember-decorators/argument": "0.8.17",
     "@ember-decorators/babel-transforms": "^2.0.2",
     "babel-plugin-htmlbars-inline-precompile": "1.0.0",
-    "cartobox-promises-utility": "nycplanning/cartobox-promises-utility#v1.0.2",
+    "cartobox-promises-utility": "1.0.2",
     "ember-cli-babel": "^6.16.0",
     "ember-cli-htmlbars": "^3.0.0",
     "ember-cli-htmlbars-inline-precompile": "^1.0.2",
