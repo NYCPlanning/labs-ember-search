@@ -170,7 +170,10 @@ export default class LabsSearchComponent extends Component {
 
   @action
   goTo(result) {
-    this.$('.map-search-input').blur();
+    const el = document.querySelector('.map-search-input');
+    const event = document.createEvent('HTMLEvents');
+    event.initEvent('blur', true, false);
+    el.dispatchEvent(event);
 
     this.setProperties({
       selected: 0,
