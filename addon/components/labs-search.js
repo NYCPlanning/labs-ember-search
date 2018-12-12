@@ -92,7 +92,7 @@ export default class LabsSearchComponent extends Component {
 
   @keepLatestTask
   debouncedResults = function* (searchTerms) {
-    if (searchTerms.length < 3) this.cancel();
+    if (searchTerms.length < 2) this.cancel();
     yield timeout(DEBOUNCE_MS);
     const URL = this.get('endpoint');
 
