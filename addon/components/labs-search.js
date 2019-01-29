@@ -1,97 +1,78 @@
 import Component from '@ember/component';
 import fetch from 'fetch';
-import { computed, action } from '@ember-decorators/object'; // eslint-disable-line
-import { classNames } from '@ember-decorators/component';
+import { computed } from '@ember/object'; // eslint-disable-line
 import { timeout } from 'ember-concurrency';
-import { argument } from '@ember-decorators/argument';
-import { Action } from '@ember-decorators/argument/types';
-import { type } from '@ember-decorators/argument/type';
 import { getOwner } from '@ember/application';
 import { Promise } from 'rsvp';
-import { keepLatestTask } from 'ember-concurrency-decorators';
+import { task } from 'ember-concurrency';
 import layout from '../templates/components/labs-search';
 
 const DEBOUNCE_MS = 100;
 
-@classNames('labs-geosearch')
-export default class LabsSearchComponent extends Component {
-  constructor() {
-    super(...arguments);
+export default Component.extend({
+  init() {
+    this._super(...arguments);
+
     const {
       host = 'https://search-api.planninglabs.nyc',
       route = 'search',
       helpers = ['geosearch', 'city-map-street-search', 'city-map-alteration'],
     } = getOwner(this).resolveRegistration('config:environment')['labs-search'] || {};
 
-    this.set('host', host);
-    this.set('route', route);
-    this.set('helpers', helpers);
-  }
+    this.setProperties({
+      typeTitleLookup: {
+        lot: 'Lot',
+      },
+      currResults: [],
+      host: host,
+      route: route,
+      helpers: helpers,
+    })
+  },
 
-  @argument
-  @type(Action)
-  onSelect = () => {};
+  classNames: ['labs-geosearch'],
 
-  @argument
-  @type(Action)
-  onHoverResult = () => {};
+  onSelect() {},
 
-  @argument
-  @type(Action)
-  onHoverOut = () => {};
+  onHoverResult() {},
 
-  @argument
-  @type(Action)
-  onClear = () => {};
+  onHoverOut() {},
 
-  @computed('searchTerms')
-  get results() {
+  onClear() {},
+
+  results: computed('searchTerms', function() {
     const searchTerms = this.get('searchTerms');
-    return this.get('debouncedResults').perform(searchTerms);
-  }
 
-  @computed('results.value')
-  get resultsCount() {
+    return this.get('debouncedResults').perform(searchTerms);
+  }),
+
+  resultsCount: computed('results.value', function() {
     const results = this.get('results.value');
     if (results) return results.length;
     return 0;
-  }
+  }),
 
-  @computed('searchTerms')
-  get endpoint() {
+  endpoint: computed('searchTerms', function() {
     const searchTerms = this.get('searchTerms');
     const host = this.get('host');
     const route = this.get('route');
     const helpers = this.get('helpers').map(string => `helpers[]=${string}&`).join('');
 
     return `${host}/${route}?${helpers}q=${searchTerms}`;
-  }
+  }),
 
-  @argument
-  host = 'https://search-api.planninglabs.nyc';
+  host: 'https://search-api.planninglabs.nyc',
+  route: 'search',
 
-  @argument
-  route = 'search';
+  searchPlaceholder: 'Search...',
+  searchTerms: '',
+  layout: layout,
+  selected: 0,
+  _focused: false,
 
-  @argument
-  typeTitleLookup = {
-    lot: 'Lot',
-  }
+  loading: null,
 
-  @argument
-  searchPlaceholder = 'Search...';
-
-  @argument
-  searchTerms = '';
-
-  layout = layout
-  selected = 0;
-  _focused = false;
-  currResults = [];
-  loading = null;
-
-  @keepLatestTask
-  debouncedResults = function* (searchTerms) {
+  debouncedResults: task(function* (searchTerms) {
     if (searchTerms.length < 2) this.cancel();
     yield timeout(DEBOUNCE_MS);
     const URL = this.get('endpoint');
@@ -113,7 +94,7 @@ export default class LabsSearchComponent extends Component {
     this.set('loading', null);
 
     return mergedWithTitles;
-  }
+  }).keepLatest(),
 
   keyPress(event) {
     const selected = this.get('selected');
@@ -127,7 +108,7 @@ export default class LabsSearchComponent extends Component {
         this.send('goTo', selectedResult);
       }
     }
-  }
+  },
 
   keyUp(event) {
     const selected = this.get('selected');
@@ -160,48 +141,44 @@ export default class LabsSearchComponent extends Component {
         this.send('handleFocusOut');
       }
     }
-  }
+  },
 
-  @action
-  clear() {
-    this.set('searchTerms', '');
-    this.get('onClear')();
-  }
+  actions: {
+    clear() {
+      this.set('searchTerms', '');
+      this.get('onClear')();
+    },
 
-  @action
-  goTo(result) {
-    const el = document.querySelector('.map-search-input');
-    const event = document.createEvent('HTMLEvents');
-    event.initEvent('blur', true, false);
-    el.dispatchEvent(event);
+    goTo(result) {
+      const el = document.querySelector('.map-search-input');
+      const event = document.createEvent('HTMLEvents');
+      event.initEvent('blur', true, false);
+      el.dispatchEvent(event);
+  
+      this.setProperties({
+        selected: 0,
+        searchTerms: result.label,
+        _focused: false,
+        currResults: [],
+      });
+  
+      this.get('onSelect')(result);
+    },
 
-    this.setProperties({
-      selected: 0,
-      searchTerms: result.label,
-      _focused: false,
-      currResults: [],
-    });
+    handleFocusIn() {
+      this.set('_focused', true);
+    },
 
-    this.get('onSelect')(result);
-  }
+    handleHoverResult(result) {
+      this.get('onHoverResult')(result);
+    },
 
-  @action
-  handleFocusIn() {
-    this.set('_focused', true);
-  }
+    handleFocusOut() {
+      this.set('_focused', false);
+    },
 
-  @action
-  handleHoverResult(result) {
-    this.get('onHoverResult')(result);
-  }
-
-  @action
-  handleFocusOut() {
-    this.set('_focused', false);
-  }
-
-  @action
-  handleHoverOut() {
-    this.get('onHoverOut')();
-  }
-}
+    handleHoverOut() {
+      this.get('onHoverOut')();
+    },
+  },
+});
