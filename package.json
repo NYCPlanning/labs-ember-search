@@ -1,7 +1,7 @@
 {
   "name": "labs-ember-search",
   "license": "MIT",
-  "version": "2.4.11",
+  "version": "2.4.12",
   "repository": "",
   "scripts": {
     "build": "ember build",
