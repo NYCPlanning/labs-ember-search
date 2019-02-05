@@ -71,7 +71,7 @@ export default Component.extend({
           }
         });
       } else {
-        const SQL = `SELECT st_centroid(the_geom) as the_geom, bbl FROM mappluto_v1711 WHERE block= ${parseInt(block, 10)} AND lot = ${parseInt(lot, 10)} AND borocode = ${code}`;
+        const SQL = `SELECT st_centroid(the_geom) as the_geom, bbl FROM mappluto_18v2 WHERE block= ${parseInt(block, 10)} AND lot = ${parseInt(lot, 10)} AND borocode = ${code}`;
         carto.SQL(SQL, 'geojson').then((response) => {
           if (response.features[0]) {
             this.set('errorMessage', '');
