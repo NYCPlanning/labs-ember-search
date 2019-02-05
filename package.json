@@ -1,7 +1,7 @@
 {
   "name": "labs-ember-search",
   "license": "MIT",
-  "version": "2.4.13",
+  "version": "3.0.0",
   "repository": "",
   "scripts": {
     "build": "ember build",
@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "@fortawesome/ember-fontawesome": "^0.1.9",
+    "@fortawesome/free-regular-svg-icons": "^5.7.1",
     "@fortawesome/free-solid-svg-icons": "^5.7.0",
     "babel-plugin-htmlbars-inline-precompile": "1.0.0",
     "cartobox-promises-utility": "1.0.2",
