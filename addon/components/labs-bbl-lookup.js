@@ -38,26 +38,28 @@ export default Component.extend({
       const boro = this.get('boro');
       const block = this.get('block');
       const lot = this.get('lot');
-  
+
       const validBoro = (boro !== '');
       const validBlock = ((block !== '') && (parseInt(block, 10) < 100000) && (parseInt(block, 10) > 0));
       const validLot = ((lot !== '') && (parseInt(lot, 10) < 10000) && (parseInt(lot, 10) > 0));
-  
+
       this.set('validBlock', validBoro && validBlock);
       this.set('validLot', validBoro && validBlock && validLot);
     },
 
     checkLot() {
       const { boro: { code }, block, lot } = this.getProperties('boro', 'block', 'lot');
-  
-      const SQL = `SELECT st_centroid(the_geom) as the_geom FROM mappluto_v1711 WHERE block= ${parseInt(block, 10)} AND lot = ${parseInt(lot, 10)} AND borocode = ${code}`;
+
+      const SQL = `SELECT st_centroid(the_geom) as the_geom, bbl FROM mappluto_v1711 WHERE block= ${parseInt(block, 10)} AND lot = ${parseInt(lot, 10)} AND borocode = ${code}`;
       carto.SQL(SQL, 'geojson').then((response) => {
         if (response.features[0]) {
           this.set('errorMessage', '');
           this.setProperties({
             closed: true,
           });
-          this.flyTo(response.features[0].geometry.coordinates, 18);
+          const bblFeature = response.features[0];
+
+          this.onSuccess(bblFeature.geometry.coordinates, 18, bblFeature.properties.bbl);
         } else {
           this.set('errorMessage', 'The Lot does not exist.');
         }
@@ -66,7 +68,7 @@ export default Component.extend({
 
     checkBlock() {
       const { boro: { code }, block } = this.getProperties('boro', 'block');
-  
+
       const SQL = `SELECT the_geom FROM mappluto_block_centroids WHERE block= ${parseInt(block, 10)} AND borocode = ${code}`;
       carto.SQL(SQL, 'geojson').then((response) => {
         if (response.features[0]) {
@@ -74,7 +76,7 @@ export default Component.extend({
           this.setProperties({
             closed: true,
           });
-          this.flyTo(response.features[0].geometry.coordinates, 16);
+          this.onSuccess(response.features[0].geometry.coordinates, 16);
         } else {
           this.set('errorMessage', 'The Block does not exist.');
         }
