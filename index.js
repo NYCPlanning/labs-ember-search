@@ -1,9 +1,5 @@
-/* eslint-env node */
 'use strict';
 
 module.exports = {
-  name: require('./package').name,
-  isDevelopingAddon() {
-    return true;
-  },
+  name: require('./package').name
 };
