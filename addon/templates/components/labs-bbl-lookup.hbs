@@ -7,22 +7,22 @@
   BBL Lookup
 </span>
 
-{{#unless closed}}
+{{!-- {{#unless closed}} --}}
   <form class="bbl-lookup-form" {{action "handleSubmit" on="submit"}}>
     <div class="bbl-power-select">
       <label>Borough</label>
-      {{#power-select
-          class="bbl-lookup--boro-select"
-          tagName=div
-          renderInPlace=true
-          options=boroOptions
-          searchEnabled=false
-          selected=boro
-          searchField='name'
-          onchange=(action 'setBorocode')
-          as |boro|}}
+
+      {{!-- <PowerSelect
+        class="bbl-lookup--boro-select"
+        @options={{this.boroOptions}}
+        @searchEnabled={{false}}
+        @selected={{boro}}
+        @searchField='name'
+        @onChange={{action 'setBorocode'}}
+        as |boro|
+      >
         {{boro.name}}
-      {{/power-select}}
+      </PowerSelect> --}}
     </div>
     <div class="grid-x">
       <div class="cell auto block-container">
@@ -42,6 +42,6 @@
 
     <input type="submit" value={{submitText}} class="button small expanded no-margin {{if (or validBlock validLot) '' 'disabled'}}">
   </form>
-{{/unless}}
+{{!-- {{/unless}} --}}
 
 {{yield}}
