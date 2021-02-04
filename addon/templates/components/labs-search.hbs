@@ -8,13 +8,13 @@
 {{#if searchTerms}}
   <button class="clear-button" aria-label="Clear Search" type="button" {{action 'clear'}}>
     {{#if (and loading (is-fulfilled loading))}}
-      {{fa-icon 'spinner' spin=true class="dark-gray"}}
+      {{fa-icon icon='spinner' spin=true class="dark-gray"}}
     {{else}}
-      {{fa-icon 'times' class="dark-gray"}}
+      {{fa-icon icon='times' class="dark-gray"}}
     {{/if}}
   </button>
 {{else}}
-  {{fa-icon 'search' class="search-icon"}}
+  {{fa-icon icon='search' class="search-icon"}}
 {{/if}}
 
 <ul class="search-results no-bullet{{if (or resultsCount currResults)' has-results'}} {{if _focused 'focused'}}"
