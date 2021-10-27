@@ -35,6 +35,8 @@ export default Component.extend({
 
   flyTo: null,
 
+  onSuccess: () => {},
+
   actions: {
     validate() {
       const boro = this.get('boro');
