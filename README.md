@@ -9,7 +9,7 @@ Invoke the component like this:
 Be sure to have the host info configured in your environment.js!
 ```
     'labs-search': {
-      host: (environment === 'devlocal') ? '//localhost:4000' : 'https://search-api-production.herokuapp.com',
+      host: (environment === 'devlocal') ? '//localhost:4000' : 'https://search-api.planninglabs.nyc',
       route: 'search',
     },
 ```
