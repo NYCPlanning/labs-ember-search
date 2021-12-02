@@ -1,6 +1,6 @@
 {
   "name": "labs-ember-search",
-  "version": "4.0.0",
+  "version": "0.0.1",
   "description": "The default blueprint for ember-cli addons.",
   "keywords": [
     "ember-addon"
@@ -23,7 +23,7 @@
     "test:ember-compatibility": "ember try:each"
   },
   "dependencies": {
-    "@fortawesome/ember-fontawesome": "^0.2.2",
+    "@fortawesome/ember-fontawesome": "^0.1.9",
     "@fortawesome/free-regular-svg-icons": "^5.7.1",
     "@fortawesome/free-solid-svg-icons": "5.12.0",
     "babel-plugin-htmlbars-inline-precompile": "1.0.0",
