@@ -14,7 +14,7 @@ export default Component.extend({
     this._super(...arguments);
 
     const {
-      host = 'https://search-api.planninglabs.nyc',
+      host = 'http://search-api-production.herokuapp.com',
       route = 'search',
       helpers = ['geosearch', 'city-map-street-search', 'city-map-alteration'],
     } = getOwner(this).resolveRegistration('config:environment')['labs-search'] || {};
