@@ -58,7 +58,7 @@ export default Component.extend({
       const validLot = this.get('validLot');
 
       if (validBlock && !validLot) {
-        const SQL = `SELECT the_geom FROM dof_dtm_block_centroids WHERE block= ${parseInt(block, 10)} AND borocode = '${code}'`;
+        const SQL = `SELECT the_geom FROM dof_dtm_block_centroids WHERE block= ${parseInt(block, 10)} AND boro = '${code}'`;
         carto.SQL(SQL, 'geojson').then((response) => {
           if (response.features[0]) {
             this.set('errorMessage', '');
