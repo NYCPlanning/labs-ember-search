@@ -55,6 +55,6 @@
     "ember-cli-htmlbars": "^6.0.1"
   },
   "engines": {
-    "node": ">= 12"
+    "node": "^12"
   }
 }
