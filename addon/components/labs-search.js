@@ -61,7 +61,7 @@ export default Component.extend({
     return `${host}/${route}?${helpers}q=${searchTerms}`;
   }),
 
-  host: 'https://search-api.planninglabs.nyc',
+  host: 'https://search-api-production.herokuapp.com',
   route: 'search',
 
   searchPlaceholder: 'Search...',
